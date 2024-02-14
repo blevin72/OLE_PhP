@@ -1,15 +1,16 @@
 <?php
-$con = mysqli_connect('localhost:8889', 'root', 'root', 'UnityAccess');
+include 'config.php';
 
+$con = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 //check if the connection happened
 if(mysqli_connect_errno()) {
     echo "1: Connection failed"; //error code #1 = connection failed
     exit();
 }
 
-$username = $_POST["name"];
-$password = $_POST["password"];
-$email = $_POST["email"];
+$accountID = mysqli_real_escape_string($con, $_POST['accountID']);
+$characterName = mysqli_real_escape_string($con, $_POST['character_name']);
+$classID = mysqli_real_escape_string($con, $_POST['classID']);
 
 //check if username exists
 $usernamecheckquery = "SELECT username FROM accounts WHERE username = '$username'";

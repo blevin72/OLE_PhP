@@ -1,6 +1,6 @@
 <?php
-$con = mysqli_connect('localhost:8889', 'root', 'root', 'UnityAccess');
-
+include 'config.php';
+$con = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 // Check if the connection happened
 if (mysqli_connect_errno()) {
     echo "1: Connection failed"; // Error code #1 = connection failed
