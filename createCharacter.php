@@ -21,6 +21,19 @@ if(!$insertCharacter) {
     exit();
 }
 
+// Get the last inserted characterID
+$lastInsertedID = mysqli_insert_id($con);
+
+// Update the inventoryID with the last inserted characterID
+$updateInventoryIDQuery = "UPDATE characters SET inventoryID = $lastInsertedID WHERE characterID = $lastInsertedID";
+$updateInventoryID = mysqli_query($con, $updateInventoryIDQuery);
+
+if (!$updateInventoryID) {
+    echo "5: Update inventoryID query failed: " . mysqli_error($con);
+    exit();
+}
+
+
 echo "0"; // Successfuly made character
 mysqli_close($con); //closing the connection to the database
 ?>
