@@ -33,7 +33,14 @@ if (!$updateInventoryID) {
     exit();
 }
 
+$insertCharacterDesignQuery = "INSERT INTO character_details (characterID) VALUES ('$lastInsertedID')";
+mysqli_query($con, $insertCharacterDesignQuery); //calling insertCharacterDesignQuery
 
-echo "0"; // Successfuly made character
+if (!$insertCharacterDesignQuery) {
+    echo "6: Insert character_detail query failed: " . mysqli_error($con);
+    exit();
+}
+
+echo "0" . $lastInsertedID; // Successfuly made character
 mysqli_close($con); //closing the connection to the database
 ?>
