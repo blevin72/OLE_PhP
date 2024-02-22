@@ -15,9 +15,9 @@ if($action == "update")
     //Get values from the form
     $characterID = isset($_POST['characterID']) ? $_POST['characterID'] : 0;
     $skinType = isset($_POST['skin_type']) ? $_POST['skin_type'] : 0;
-    //$skinTone
+    $skinTone = isset($_POST['skin_tone']) ? $_POST['skin_tone'] : 0;
     $hairType = isset($_POST['hair_type']) ? $_POST['hair_type'] : 0;
-    $hairColor = isset($_POST['hairColor']) ? $_POST['hairColor'] : 0;
+    $hairColor = isset($_POST['hair_color']) ? $_POST['hair_color'] : 0;
     $beardType = isset($_POST['beard_type']) ? $_POST['beard_type'] : 0;
     $beardColor = isset($_POST['beard_color']) ? $_POST['beard_color'] : 0;
     $hatType = isset($_POST['hat_type']) ? $_POST['hat_type'] : 0;
@@ -36,6 +36,7 @@ if($action == "update")
 
     $updateCharacterDesignQuery = "UPDATE character_details
         SET skin_type = '$skinType',
+            skin_tone = '$skinTone',
             hair_type = '$hairType',
             hair_color = '$hairColor',
             beard_type = '$beardType',

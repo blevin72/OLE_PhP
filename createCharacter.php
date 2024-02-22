@@ -41,6 +41,14 @@ if (!$insertCharacterDesignQuery) {
     exit();
 }
 
+$insertCharacterBlendshapesQuery = "INSERT INTO character_blendshapes (characterID) VALUES ('$lastInsertedID')";
+mysqli_query($con, $insertCharacterBlendshapesQuery); //calling insertCharacterBlendshapesQuery
+
+if (!$insertCharacterDesignQuery) {
+    echo "7: Insert character_blendshapes query failed: " . mysqli_error($con);
+    exit();
+}
+
 echo "0" . $lastInsertedID; // Successfuly made character
 mysqli_close($con); //closing the connection to the database
 ?>
