@@ -11,9 +11,10 @@ if (mysqli_connect_errno()) {
 $accountID = $_POST['accountID'];
 $characterName = $_POST['character_name'];
 $classID = $_POST['classID'];
+$characterSlot = $_POST['character_slot'];
 
-$insertCharacterQuery = "INSERT INTO characters (accountID, character_name, classID)
-VALUES ('$accountID', '$characterName', '$classID')";
+$insertCharacterQuery = "INSERT INTO characters (accountID, character_slot, character_name, classID)
+VALUES ('$accountID', '$characterSlot', '$characterName', '$classID')";
 $insertCharacter = mysqli_query($con, $insertCharacterQuery);
 
 if(!$insertCharacter) {
@@ -33,6 +34,7 @@ if (!$updateInventoryID) {
     exit();
 }
 
+//creating row in character_details table
 $insertCharacterDesignQuery = "INSERT INTO character_details (characterID) VALUES ('$lastInsertedID')";
 mysqli_query($con, $insertCharacterDesignQuery); //calling insertCharacterDesignQuery
 
@@ -41,6 +43,7 @@ if (!$insertCharacterDesignQuery) {
     exit();
 }
 
+//creating row in character_blendshapes table
 $insertCharacterBlendshapesQuery = "INSERT INTO character_blendshapes (characterID) VALUES ('$lastInsertedID')";
 mysqli_query($con, $insertCharacterBlendshapesQuery); //calling insertCharacterBlendshapesQuery
 
