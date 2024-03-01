@@ -27,10 +27,10 @@ if($action == "select")
         }
         echo $response;
     }
-    else
-    {
-        echo "No characters found for the given ID";
-    }
+    // else
+    // {
+    //     echo "No characters found for the given ID";
+    // }
 }
 else
 {
