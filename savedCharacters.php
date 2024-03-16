@@ -15,7 +15,7 @@ if($action == "select")
     //Get values from the form
     $accountID = $_POST['accountID'];
     
-    $selectCharacterDataQuery = "SELECT character_name, outpostID, level, ClassID FROM characters WHERE accountID = '$accountID'";
+    $selectCharacterDataQuery = "SELECT character_name, outpostID, level, ClassID, characterID FROM characters WHERE accountID = '$accountID'";
     $result = ($con->query($selectCharacterDataQuery));
 
     if($result->num_rows > 0)
@@ -23,7 +23,7 @@ if($action == "select")
         $response = "";
         while ($row = $result->fetch_assoc()) 
         {
-            $response .= $row['character_name'] . "," . $row['outpostID'] . "," . $row['level'] . "," . $row['ClassID'] . "|";
+            $response .= $row['character_name'] . "," . $row['outpostID'] . "," . $row['level'] . "," . $row['ClassID'] . "," . $row['characterID'] . "|";
         }
         echo $response;
     }

@@ -9,12 +9,13 @@ if(mysqli_connect_errno()){
 
 $action = isset($_GET['action']) ? $_GET['action'] : '';
 
-if($action = 'get_settings')
+if($action == 'get_character')
+if($action == 'get_character')
 {
     //get settings based off characterID
-    $characterID = isset($_GET['character_ID']) ? ($_GET['character_ID']) : 0;
+    $characterID = isset($_GET['characterID']) ? ($_GET['characterID']) : 0;
 
-    $getLevelAndExpQuery = "SELECT 'level', exp FROM characters
+    $getLevelAndExpQuery = "SELECT `level`, exp, characterID FROM characters
     WHERE characterID = '$characterID'";
 
     $result= mysqli_query($con, $getLevelAndExpQuery);
@@ -22,7 +23,16 @@ if($action = 'get_settings')
     if($result)
     {
         $row = mysqli_fetch_assoc($result);
-        echo json_encode($row);
+        $response = array(
+            'characterID' => $row['characterID'],
+            'level' => $row['level'],
+            'exp' => $row['exp']
+        );
+        // Set response headers to indicate JSON content
+        header('Content-Type: application/json');
+         
+        // Output JSON response
+        echo json_encode($response);
     }
     else 
     {
