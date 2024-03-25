@@ -25,7 +25,7 @@ if($action == "update")
     $gore = isset($_POST['gore']) ? (float)$_POST['gore'] : 0;
     $gameTips = isset($_POST['game_tips']) ? (float)$_POST['game_tips'] : 0;
 
-    //add $server below
+    //add $server below once it has been set up
     $updateSettingsQuery = "UPDATE settings_preferences
         SET the_division = '$theDivision',
             HUD_theme = '$hudTheme',
