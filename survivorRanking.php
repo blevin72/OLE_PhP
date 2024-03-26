@@ -55,7 +55,7 @@ if($action == 'get_characterStats')
 }
 else if($action == 'save_characterStats')
 {
-    $characterID = isset($_POST['characterID']) ? $_POST['characterID'] : 0;
+    $characterID = isset($_POST['characterID']) ? intval($_POST['characterID']) : 0;
     $strength = isset($_POST['strength']) ? intval($_POST['strength']) : 0;
     $dexterity = isset($_POST['dexterity']) ? intval($_POST['dexterity']) : 0;
     $intellect = isset($_POST['intellect']) ? intval($_POST['intellect']) : 0;
