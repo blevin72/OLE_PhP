@@ -14,7 +14,7 @@ if($action == 'get_characterStats')
     //get settings based off characterID
     $characterID = isset($_GET['characterID']) ? ($_GET['characterID']) : 0;
 
-    $query = "SELECT `level`, exp, outpost_ranking, total_health, total_stamina, total_protection, total_progression, 
+    $query = "SELECT character_name, `level`, exp, outpost_ranking, total_health, total_stamina, total_protection, total_progression, 
     strength, dexterity, intellect, endurance, charm, stealth, skill_points, characterID FROM characters
     WHERE characterID = '$characterID'";
 
@@ -25,6 +25,7 @@ if($action == 'get_characterStats')
         $row = mysqli_fetch_assoc($result);
         $response = array(
             'characterID' => $row['characterID'],
+            'character_name' => $row['character_name'],
             'level' => $row['level'],
             'exp' => $row['exp'],
             'outpost_ranking' => $row['outpost_ranking'],
