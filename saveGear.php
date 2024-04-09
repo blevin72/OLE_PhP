@@ -40,4 +40,41 @@ if($action == 'update')
 
     mysqli_close($con);
 }
+else if($action == "getWeight")
+{
+    $characterID = isset($_GET['characterID']) ? $_GET['characterID'] : 0;
+    
+    $feetWeightQuery = "SELECT gearWeight FROM gear_feet WHERE gearName =  (SELECT equipped_feet FROM characters WHERE characterID = '$characterID');";
+    $shoulderWeightQuery = "SELECT gearWeight FROM gear_flashlights WHERE gearName =  (SELECT equipped_flashlights FROM characters WHERE characterID = '$characterID');";
+    $handWeightQuery = "SELECT gearWeight FROM gear_hands WHERE gearName =  (SELECT equipped_hands FROM characters WHERE characterID = '$characterID');";
+    $headWeightQuery = "SELECT gearWeight FROM gear_head WHERE gearName =  (SELECT equipped_head FROM characters WHERE characterID = '$characterID');";
+    $holsterWeightQuery = "SELECT gearWeight FROM gear_holster WHERE gearName =  (SELECT equipped_holster FROM characters WHERE characterID = '$characterID');";
+    $legsWeightQuery = "SELECT gearWeight FROM gear_legs WHERE gearName =  (SELECT equipped_legs FROM characters WHERE characterID = '$characterID');";
+    $torsoWeightQuery = "SELECT gearWeight FROM gear_torso WHERE gearName =  (SELECT equipped_torso FROM characters WHERE characterID = '$characterID');";
+
+    // Execute queries
+    $feetWeightResult = mysqli_query($con, $feetWeightQuery);
+    $shoulderWeightResult = mysqli_query($con, $shoulderWeightQuery);
+    $handWeightResult = mysqli_query($con, $handWeightQuery);
+    $headWeightResult = mysqli_query($con, $headWeightQuery);
+    $holsterWeightResult = mysqli_query($con, $holsterWeightQuery);
+    $legsWeightResult = mysqli_query($con, $legsWeightQuery);
+    $torsoWeightResult = mysqli_query($con, $torsoWeightQuery);
+
+    // Fetch weights
+    $feetWeight = mysqli_fetch_assoc($feetWeightResult)['gearWeight'];
+    $shoulderWeight = mysqli_fetch_assoc($shoulderWeightResult)['gearWeight'];
+    $handWeight = mysqli_fetch_assoc($handWeightResult)['gearWeight'];
+    $headWeight = mysqli_fetch_assoc($headWeightResult)['gearWeight'];
+    $holsterWeight = mysqli_fetch_assoc($holsterWeightResult)['gearWeight'];
+    $legsWeight = mysqli_fetch_assoc($legsWeightResult)['gearWeight'];
+    $torsoWeight = mysqli_fetch_assoc($torsoWeightResult)['gearWeight'];
+
+    $totalWeight = $feetWeight + $shoulderWeight + $handWeight + $headWeight + $holsterWeight + $legsWeight + $torsoWeight;
+
+    // Echo out the result
+    echo json_encode(array('totalWeight' => $totalWeight));
+
+    mysqli_close($con);
+}
 ?>
