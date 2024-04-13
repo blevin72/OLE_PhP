@@ -8,40 +8,56 @@ if(mysqli_connect_errno()){
 }
 
 $action = isset($_GET['action']) ? $_GET['action'] : '';
+$characterID = isset($_GET['characterID']) ? $_GET['characterID'] : 0;   
 
-if($action == 'select')
+//-----------------------------MELEE-----------------------------//
+if($action == 'meleeQuery')
 {
-    $characterID = isset($_GET['characterID']) ? $_GET['characterID'] : 0;
-    
-    //-----------------------------Protection-----------------------------//
-    //Retrieve protection modifier value from each table
-    $feetProtectionQuery = "SELECT protectionModifier FROM gear_feet WHERE gearName = (SELECT equipped_feet FROM characters WHERE characterID = '$characterID');";
-    $handsProtectionQuery = "SELECT protectionModifier FROM gear_hands WHERE gearName = (SELECT equipped_hands FROM characters WHERE characterID = '$characterID');";
-    $headProtectionQuery = "SELECT protectionModifier FROM gear_head WHERE gearName = (SELECT equipped_head FROM characters WHERE characterID = '$characterID');";
-    $legsProtectionQuery = "SELECT protectionModifier FROM gear_legs WHERE gearName = (SELECT equipped_legs FROM characters WHERE characterID = '$characterID');";
-    $torsoProtectionQuery = "SELECT protectionModifier FROM gear_torso WHERE gearName = (SELECT equipped_torso FROM characters WHERE characterID = '$characterID');";
+    $meleeQuery = "SELECT meleeModifier from gear_hands WHERE gearName = (SELECT equipped_hands FROM characters WHERE characterID = '$characterID')";
+    $result = mysqli_query($con, $meleeQuery);
+    $meleeData = mysqli_fetch_assoc($result);
+    echo json_encode(array('meleeBonus' => $meleeData['meleeModifier']));
+}
 
-    //Execute queries
-    $feetProtectionResult = mysqli_query($con,$feetProtectionQuery);
-    $handsProtectionResult = mysqli_query($con,$handsProtectionQuery);
-    $headProtectionResult = mysqli_query($con,$headProtectionQuery);
-    $legsProtectionResult = mysqli_query($con,$legsProtectionQuery);
-    $torsoProtectionResult = mysqli_query($con,$torsoProtectionQuery);
+//-----------------------------PROTECTION-----------------------------//
+if($action == 'protectionQuery')
+{
+    $protectionQuery = "SELECT 
+                        f.protectionModifier AS feetProtection,
+                        h.protectionModifier AS handsProtection,
+                        hd.protectionModifier AS headProtection,
+                        l.protectionModifier AS legsProtection,
+                        t.protectionModifier AS torsoProtection
+                        FROM 
+                        characters c
+                        LEFT JOIN 
+                        gear_feet f ON c.equipped_feet = f.gearName
+                        LEFT JOIN 
+                        gear_hands h ON c.equipped_hands = h.gearName
+                        LEFT JOIN 
+                        gear_head hd ON c.equipped_head = hd.gearName
+                        LEFT JOIN 
+                        gear_legs l ON c.equipped_legs = l.gearName
+                        LEFT JOIN 
+                        gear_torso t ON c.equipped_torso = t.gearName
+                        WHERE 
+                        c.characterID = '$characterID'";
 
-    //Fetch Protection
-    $feetProtection = mysqli_fetch_assoc($feetProtectionResult)['protectionModifier'];
-    $handProtection = mysqli_fetch_assoc($handsProtectionResult)['protectionModifier'];
-    $headProtection = mysqli_fetch_assoc($headProtectionResult)['protectionModifier'];
-    $legsProtection = mysqli_fetch_assoc($legsProtectionResult)['protectionModifier'];
-    $torsoProtection = mysqli_fetch_assoc($torsoProtectionResult)['protectionModifier'];
+    $result = mysqli_query($con, $protectionQuery);
 
-    $protection = $feetProtection + $handProtection + $headProtection + $legsProtection + $torsoProtection;
+    // Fetch combined protection data
+    $protectionData = mysqli_fetch_assoc($result);
+
+    // Calculate total protection
+    $protection = $protectionData['feetProtection'] +
+    $protectionData['handsProtection'] +
+    $protectionData['headProtection'] +
+    $protectionData['legsProtection'] +
+    $protectionData['torsoProtection'];
 
     // Echo out the result
     echo json_encode(array('protection' => $protection));
-    //-----------------------------End Protection-----------------------------//
-
-
+    //-----------------------------END PROTECTION-----------------------------//
     mysqli_close($con);
 }
 
