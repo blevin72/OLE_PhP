@@ -12,6 +12,7 @@ $action = isset($_GET['action']) ? $_GET['action'] : '';
 if($action == 'fetch_details')
 {
     $gearName = isset($_GET['gearName']) ? $_GET['gearName'] : 0;
+    $itemName = isset($_GET['itemName']) ? $_GET['itemName'] : 0;
 
     // Check gear type to determine the appropriate query
     $gearTypeName = isset($_GET['gearTypeName']) ? $_GET['gearTypeName'] : '';
@@ -73,7 +74,7 @@ if($action == 'fetch_details')
     {
         $gearQuery = "SELECT itemName, itemImage, itemDescription, itemProperties_1, itemProperties_2, rarity
         FROM items_consumables
-        WHERE itemName = '$gearName";
+        WHERE itemName = '$gearName'";
 
         $result = mysqli_query($con,$gearQuery);
     }
