@@ -36,7 +36,9 @@ else if($action == "select")
     $characterID = isset($_GET['characterID']) ? $_GET['characterID'] : 0;
     $chatType = isset($_GET['chat_type']) ? $_GET['chat_type'] : '';
 
-    $query = "SELECT content FROM outpost_chatrooms WHERE outpostID = (SELECT outpostID FROM characters WHERE characterID = '$characterID') AND chat_type = '$chatType'";
+    $query = "SELECT content FROM outpost_chatrooms WHERE outpostID = (SELECT outpostID FROM characters WHERE characterID = '$characterID') AND chat_type = '$chatType'
+              ORDER BY message_time DESC
+              LIMIT 500";
 
     $result = mysqli_query($con, $query);
 
