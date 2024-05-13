@@ -28,9 +28,9 @@ if($action == "insert")
     $ammoTypeThree = isset($_POST['ammo_type_three']) ? $_POST['ammo_type_three'] : 0;
     $requestMessage = isset($_POST['request_message']) ? $_POST['request_message'] : 0;
 
-    $query = "INSERT INTO radio_requests (characterID, mission_type, commencement, rations, bandages, lock_picks, med_kits, water, ammo_boxes_one, ammo_boxes_two, 
+    $query = "INSERT INTO radio_requests (characterID, outpostID, mission_type, commencement, rations, bandages, lock_picks, med_kits, water, ammo_boxes_one, ammo_boxes_two, 
             ammo_boxes_three, ammo_type_one, ammo_type_two, ammo_type_three, request_message)
-             VALUES ('$characterID', '$missionType', '$commencement', '$rations', '$bandages', '$lockpicks', '$medkits', '$water', '$ammoBoxesOne', '$ammoBoxesTwo',
+             VALUES ('$characterID', (SELECT outpostID FROM characters WHERE characterID = '$characterID'), '$missionType', '$commencement', '$rations', '$bandages', '$lockpicks', '$medkits', '$water', '$ammoBoxesOne', '$ammoBoxesTwo',
             '$ammoBoxesThree', '$ammoTypeOne', '$ammoTypeTwo', '$ammoTypeThree', '$requestMessage')";
 
     $insert = mysqli_query($con, $query);
