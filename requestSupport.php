@@ -43,4 +43,39 @@ if($action == "insert")
 
     mysqli_close($con);
 }
+if($action == "select")
+{
+    $query = "SELECT 
+            (SELECT outpost_name FROM outpost WHERE outpostID = radio_requests.outpostID) AS outpost_name,
+            (SELECT outpost_ranking FROM outpost WHERE outpostID = radio_requests.outpostID) AS outpost_ranking,
+            radio_requests.mission_type,
+            radio_requests.commencement
+            FROM radio_requests";
+
+    $result = mysqli_query($con, $query);
+
+    if($result)
+    {
+        $response = array();
+        while($row = mysqli_fetch_assoc($result))
+        {
+            $response[] = $row;
+        }
+
+        // Set response headers to indicate JSON content
+        header('Content-Type: application/json');
+        
+        // Output JSON response
+        echo json_encode($response);
+    }
+    else 
+    {
+        echo "2: Query failed. Error: " . mysqli_error($con); // Error code #2 = query failed
+    }
+    mysqli_close($con);
+}
+else 
+{
+    echo "Invalid action";
+}
 ?>
