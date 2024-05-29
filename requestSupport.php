@@ -45,7 +45,7 @@ if($action == "insert")
 }
 if($action == "select")
 {
-    $query = "SELECT 
+    $query = "SELECT radio_requests.distressCall_ID,
             (SELECT outpost_name FROM outpost WHERE outpostID = radio_requests.outpostID) AS outpost_name,
             (SELECT outpost_ranking FROM outpost WHERE outpostID = radio_requests.outpostID) AS outpost_ranking,
             radio_requests.mission_type,
